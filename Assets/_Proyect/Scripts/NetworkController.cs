@@ -19,7 +19,7 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkSceneManagerDefault _networkSceneManagerDefault;
     [SerializeField] private NetworkObject _playerPrefab;
 
-    private Dictionary<PlayerRef, NetworkObject> _spawnedPlayers = new Dictionary<PlayerRef, NetworkObject>();
+    private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
 
     private void Start()
     {
@@ -71,17 +71,17 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
         if (!runner.IsServer) return;
 
-        NetworkObject playerObject = runner.Spawn(_playerPrefab, new Vector3(Random.Range(-3, 3), 0, 0), Quaternion.identity, player);
-        _spawnedPlayers[player] = playerObject;
+        var playerSpawned = _networkRunner.Spawn(_playerPrefab, new Vector3(Random.Range(-3, 3), 0, 0), Quaternion.identity, player);
+        _players.Add(player,playerSpawned);
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
+        if (!_networkRunner.IsServer) return;
 
-        if (_spawnedPlayers.ContainsKey(player))
+        if (_players.Remove(player, out var playerSpawned))
         {
-            runner.Despawn(_spawnedPlayers[player]);
-            _spawnedPlayers.Remove(player);
+            _networkRunner.Despawn(playerSpawned);
         }
     }
 
@@ -90,6 +90,10 @@ public class NetworkController : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
+        //var onInputPlayer = new NetworkInputPlayer();
+
+
+
     }
 
 

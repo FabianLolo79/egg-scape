@@ -19,6 +19,8 @@ public class NetworkControllerNico : MonoBehaviour, INetworkRunnerCallbacks
 
     [SerializeField] private NetworkObject _playerPrefab;
 
+    private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
+
     private void Start()
     {
         _createRoomButton.onClick.AddListener(CreateRoom);
@@ -67,15 +69,46 @@ public class NetworkControllerNico : MonoBehaviour, INetworkRunnerCallbacks
 
         if (!_networkRunner.IsServer) return;
 
-        _networkRunner.Spawn(_playerPrefab, new Vector3(Random.Range(-3,3), 0, 0), Quaternion.identity, player);
+        var playerSpawner = _networkRunner.Spawn(_playerPrefab, new Vector3(Random.Range(-3,3), 0, 0), Quaternion.identity, player);
+        _players.Add(player, playerSpawner);
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
+        if (!_networkRunner.IsServer) return;
+        //aca puso primero
+
+        if(_players.Remove(player, out var playerSpawned))
+        {
+            _networkRunner.Despawn(playerSpawned);
+        }
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
+        var inputPlayer = new NetworkInputPlayer();
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            inputPlayer.moveDirection += Vector3.left;
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            inputPlayer.moveDirection += Vector3.right;
+        }
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            inputPlayer.moveDirection += Vector3.forward;
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            inputPlayer.moveDirection += Vector3.back;
+        }
+
+        input.Set(inputPlayer);
     }
 
 
