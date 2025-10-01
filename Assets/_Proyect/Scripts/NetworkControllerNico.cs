@@ -75,10 +75,10 @@ public class NetworkControllerNico : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        if (!_networkRunner.IsServer) return;
-        //aca puso primero
 
-        if(_players.Remove(player, out var playerSpawned))
+        if (!_networkRunner.IsServer) return;
+
+        if (_players.Remove(player, out var playerSpawned))
         {
             _networkRunner.Despawn(playerSpawned);
         }
