@@ -158,6 +158,7 @@ GameObject:
   - component: {fileID: 3005685049055686402}
   - component: {fileID: 7103102742467412528}
   - component: {fileID: 9196450287914692774}
+  - component: {fileID: 5161132135498608569}
   m_Layer: 0
   m_Name: Egg-Bert
   m_TagString: Untagged
@@ -436,6 +437,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 7103102742467412528}
   - {fileID: 9196450287914692774}
+  - {fileID: 5161132135498608569}
   ForceRemoteRenderTimeframe: 0
 --- !u!143 &3005685049055686402
 CharacterController:
@@ -496,3 +498,16 @@ MonoBehaviour:
   _renderer: {fileID: 4150386346327291931}
   _proyectilePrefab: {fileID: 3225221806149801753, guid: 8b8ea7071fd2b2741b040fe77564e475, type: 3}
   _proyectileSpawnPoint: {fileID: 2914345695026186367}
+--- !u!114 &5161132135498608569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6353250887027235504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f137b9952a25064689e20cd57b6778e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 100

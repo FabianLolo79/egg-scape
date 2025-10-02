@@ -22,7 +22,10 @@ public class NetworkControllerNico : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
 
     //Attack button
-    private bool _mouseButtonPressed;
+    private bool _mouseButton1Pressed;
+
+    //Health button
+    private bool _mouseButton2Pressed;
 
     private void Start()
     {
@@ -34,7 +37,12 @@ public class NetworkControllerNico : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (Input.GetMouseButtonDown(0))
         {
-            _mouseButtonPressed = true;
+            _mouseButton1Pressed = true;
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            _mouseButton2Pressed = true;
         }
     }
 
@@ -86,7 +94,7 @@ public class NetworkControllerNico : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-
+        Debug.Log("Left Room");
         if (!_networkRunner.IsServer) return;
 
         if (_players.Remove(player, out var playerSpawned))
@@ -119,10 +127,12 @@ public class NetworkControllerNico : MonoBehaviour, INetworkRunnerCallbacks
             inputPlayer.moveDirection += Vector3.back;
         }
 
-        inputPlayer.buttons.Set(NetworkInputPlayer.MOUSE_BUTTON_0, _mouseButtonPressed);
+        inputPlayer.buttons.Set(NetworkInputPlayer.MOUSE_BUTTON_0, _mouseButton1Pressed);
+        inputPlayer.buttons.Set(NetworkInputPlayer.MOUSE_BUTTON_1, _mouseButton2Pressed);
         input.Set(inputPlayer);
 
-        _mouseButtonPressed = false;
+        _mouseButton1Pressed = false;
+        _mouseButton2Pressed = false;
     }
 
 
