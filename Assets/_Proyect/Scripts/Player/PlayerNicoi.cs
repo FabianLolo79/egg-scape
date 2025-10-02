@@ -32,7 +32,7 @@ public class PlayerNicoi : NetworkBehaviour
         inputPlayer.moveDirection.Normalize();
         _characterController.Move(inputPlayer.moveDirection * Runner.DeltaTime);
 
-        if (inputPlayer.buttons.IsSet(NetworkInputPlayer.MOUSE_BUTTON_0))
+        if (inputPlayer.buttons.IsSet(NetworkInputPlayer.MOUSE_BUTTON_0) && HasStateAuthority)
         {
             var spawnedProyectile = Runner.Spawn(_proyectilePrefab, _proyectileSpawnPoint.position, Quaternion.LookRotation(transform.forward), Object.InputAuthority);
             spawnedProyectile.GetComponent<Proyectile>().InitProyectile();

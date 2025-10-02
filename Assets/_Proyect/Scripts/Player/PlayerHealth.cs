@@ -3,7 +3,7 @@ using Fusion;
 
 public class PlayerHealth : NetworkBehaviour
 {
-    [Networked] public int health { get; set; } = 100;
+    [Networked, OnChangedRender(nameof(OnHealthChanged))] public int health { get; set; } = 100;
 
     public override void FixedUpdateNetwork()
     {
@@ -18,12 +18,13 @@ public class PlayerHealth : NetworkBehaviour
 
     public void TakeDamage(int damage)
     {
-        Debug.Log($"Player {name} takes damage {damage}, hasAutho: {HasStateAuthority}");
-
         if(!HasStateAuthority) return;
 
         health -= damage;
-
-        Debug.Log($"Player {name} has {health} health");
     }
+
+    private void OnHealthChanged()
+    {
+        Debug.Log($"Has State Auth: [{HasStateAuthority}]. Has Input Auth: [{HasInputAuthority}]. OnHealthChanged: [{health}]");
+    }  
 }
