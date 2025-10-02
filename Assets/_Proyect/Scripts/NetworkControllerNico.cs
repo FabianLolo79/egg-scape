@@ -21,10 +21,21 @@ public class NetworkControllerNico : MonoBehaviour, INetworkRunnerCallbacks
 
     private Dictionary<PlayerRef, NetworkObject> _players = new Dictionary<PlayerRef, NetworkObject>();
 
+    //Attack button
+    private bool _mouseButtonPressed;
+
     private void Start()
     {
         _createRoomButton.onClick.AddListener(CreateRoom);
         _joinRoomButton.onClick.AddListener(JoinRoom);
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            _mouseButtonPressed = true;
+        }
     }
 
     private async void CreateRoom()
@@ -108,7 +119,10 @@ public class NetworkControllerNico : MonoBehaviour, INetworkRunnerCallbacks
             inputPlayer.moveDirection += Vector3.back;
         }
 
+        inputPlayer.buttons.Set(NetworkInputPlayer.MOUSE_BUTTON_0, _mouseButtonPressed);
         input.Set(inputPlayer);
+
+        _mouseButtonPressed = false;
     }
 
 
