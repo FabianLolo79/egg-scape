@@ -511,3 +511,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 100
+  _renderer: {fileID: 4150386346327291931}
